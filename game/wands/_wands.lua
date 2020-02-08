@@ -32,7 +32,7 @@ function get_wand_p_t(player)
 end
 
 function can_shoot(p)
-  return wands[p.wand_id].can_shoot(p)
+  return wands[p.wand_id].can_shoot and wands[p.wand_id].can_shoot(p)
 end
 
 function get_firing_speed(player)
