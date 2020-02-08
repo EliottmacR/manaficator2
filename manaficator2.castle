@@ -3,6 +3,6 @@ main: main.lua
 title: Manaficator II
 owner: spaceling
 primaryColor: 80ac40
-coverImage: preview.png
 dimensions: full
-description:
+draft: true
+description: Use WASD to move, aim with the mouse and dash with space. 
