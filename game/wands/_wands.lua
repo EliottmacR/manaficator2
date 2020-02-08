@@ -4,15 +4,19 @@ wands = {}
   
 do -- find all the wands
 
-  files = love.filesystem.getDirectoryItems( "game/wands/" )
-
-  for k, file in ipairs(files) do
-    if file ~= "_wands.lua" then
-      file = file:sub( 1, #file - 4 )
-      require("game/wands/"..file)
-    end
-  end
+  -- files = love.filesystem.getDirectoryItems( "game/wands/" )
   
+  -- for k, file in ipairs(files) do
+    -- if file ~= "_wands.lua" then
+      -- file = file:sub( 1, #file - 4 )
+      -- require("game/wands/"..file)
+    -- end
+  -- end
+  
+  require("game/wands/kamehamewand.lua")
+  require("game/wands/lazershot.lua")
+  require("game/wands/meteor_wand.lua")
+  require("game/wands/start_wand.lua")
 end
 
 function shoot(p)

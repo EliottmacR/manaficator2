@@ -1,15 +1,17 @@
   
 do -- find all the enemies
 
-  files = love.filesystem.getDirectoryItems( "game/menus/" )
+  -- files = love.filesystem.getDirectoryItems( "game/menus/" )
 
-  for k, file in ipairs(files) do
-    if file ~= "_menus.lua" then
-      file = file:sub( 1, #file - 4 )
-      require("game/menus/"..file)
-    end
-  end
+  -- for k, file in ipairs(files) do
+    -- if file ~= "_menus.lua" then
+      -- file = file:sub( 1, #file - 4 )
+      -- require("game/menus/"..file)
+    -- end
+  -- end
   
+  require("game/menus/quest_board.lua")
+  require("game/menus/shop.lua")
 end
 
 

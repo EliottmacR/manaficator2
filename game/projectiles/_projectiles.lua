@@ -5,15 +5,17 @@ projectile_t = {}
   
 do -- find all the projectiles_types
 
-  files = love.filesystem.getDirectoryItems( "game/projectiles/" )
+  -- files = love.filesystem.getDirectoryItems( "game/projectiles/" )
 
-  for k, file in ipairs(files) do
-    if file ~= "_projectiles.lua" then
-      file = file:sub( 1, #file - 4 )
-      require("game/projectiles/"..file)
-    end
-  end
-  
+  -- for k, file in ipairs(files) do
+    -- if file ~= "_projectiles.lua" then
+      -- file = file:sub( 1, #file - 4 )
+      -- require("game/projectiles/"..file)
+    -- end
+  -- end
+  require("game/projectiles/kamehameha.lua")
+  require("game/projectiles/orb.lua")
+  require("game/projectiles/ranged_laser.lua")
 end
 
 n_proj_id = 1

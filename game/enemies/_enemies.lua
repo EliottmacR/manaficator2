@@ -9,14 +9,17 @@ require("game/enemies/cadavres")
 
 do -- find all the enemies
 
-  files = love.filesystem.getDirectoryItems( "game/enemies/" )
+  -- files = love.filesystem.getDirectoryItems( "game/enemies/" )
 
-  for k, file in ipairs(files) do
-    if file ~= "_enemies.lua" then
-      file = file:sub( 1, #file - 4 )
-      require("game/enemies/"..file)
-    end
-  end
+  -- for k, file in ipairs(files) do
+    -- if file ~= "_enemies.lua" then
+      -- file = file:sub( 1, #file - 4 )
+      -- require("game/enemies/"..file)
+    -- end
+  -- end
+  require("game/enemies/acid_cloud.lua")
+  require("game/enemies/acid_pool.lua")
+  require("game/enemies/zombie.lua")
   
 end
 
