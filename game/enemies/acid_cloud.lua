@@ -3,6 +3,7 @@ e_template.acid_cloud = {
   name = "Acid Cloud",
   id = "acid_cloud",
   
+  rarity = 1,
   w = 16,
   h = 16,
   attributes = {

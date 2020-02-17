@@ -1,3 +1,4 @@
+require("game/intro")
 require("game/world/world")
 require("game/player")
 require("game/enemies/_enemies")
@@ -5,7 +6,7 @@ require("game/menus/_menus")
 require("game/hud")
 require("game/signals")
 require("game/quests")
-require("game/items") 
+require("game/items")  
 
 background_clr = 0
 
@@ -18,13 +19,10 @@ function init_game()
 
   init_palette()
   
-  -- object_list = castle.storage.get("object_list") or {}
-  -- coins = castle.storage.get("coins")
-  -- infos = castle.storage.get("infos") or {}
-  
   load_png("spr_sheet", "assets/spr_sheet.png", nil, true) 
   spritesheet_grid (16, 16)
-  state = "intro"
+  -- state = "intro"
+  state = "game"
   
   
   init_world()
@@ -39,10 +37,22 @@ function init_game()
   init_signals()
   init_quests()
   
+  init_intro()
+  
+  
 end
 
 function update_game()
-
+  
+  timer_intro = timer_intro - dt()
+  
+  if state == "intro" then
+    update_intro()
+    return
+  end
+  
+  if btnp("n") then init_start_area() end
+  
   update_world()
   
   update_enemies()
@@ -69,20 +79,26 @@ function update_camera()
   cam.y = player.y + player.h/2 - GH/2 + yoffset
 end
 
-
 function draw_game()
-  cls(background_clr)
   
-  camera(cam.x, cam.y)
-    draw_world()
-    draw_projectiles()
-    draw_shadows()
-    y_sort_draw() 
-    if area.post_draw then area.post_draw() end
-    draw_cursor()
-  camera()
+  if state == "intro" then
+    cls(_p_n("black"))
+    draw_intro()      
+  else
+    cls(background_clr)
+    
+    camera(cam.x, cam.y)
+      draw_world()
+      draw_projectiles()
+      draw_shadows()
+      y_sort_draw() 
+      if area.post_draw then area.post_draw() end
+      draw_cursor()
+    camera()
+    
+    draw_hud()
+  end
   
-  draw_hud()
   
   use_font("16")
   print_log()
@@ -113,7 +129,9 @@ function init_controls()
   register_btn("g", 0,  input_id("keyboard", "g"))
   register_btn("j", 0,  input_id("keyboard", "j"))
   register_btn("y", 0,  input_id("keyboard", "y"))
+  register_btn("p", 0,  input_id("keyboard", "p"))
   register_btn("h", 0,  input_id("keyboard", "h"))
+  register_btn("n", 0,  input_id("keyboard", "n"))
   
   register_btn("shoot" , 0, {input_id("mouse_button", "lb"),  input_id("mouse_button", "rb")})
   register_btn("select", 0,  input_id("mouse_button", "lb"))

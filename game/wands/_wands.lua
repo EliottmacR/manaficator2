@@ -13,10 +13,10 @@ do -- find all the wands
     -- end
   -- end
   
-  require("game/wands/kamehamewand.lua")
-  require("game/wands/lazershot.lua")
-  require("game/wands/meteor_wand.lua")
-  require("game/wands/start_wand.lua")
+  require("game/wands/kamehamewand")
+  require("game/wands/lazershot")
+  require("game/wands/meteor_wand")
+  require("game/wands/start_wand")
 end
 
 function shoot(p)

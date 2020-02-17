@@ -16,8 +16,8 @@ function init_player()
     dash_time = .3,
     dash_speed = 14,
     
-    life = 5,
-    max_life = 5,
+    life = 100,
+    max_life = 100,
     
     until_recovery = 0,
     recovery_time = 1,
@@ -32,7 +32,8 @@ function init_player()
     },
     
     wand_id = "lazershot",
-    
+    coins = 0,
+    achievement_list = {}
   }
   player.x = world.x + (world.w-player.w)/2
   player.y = world.y + (world.h-player.h)/2
@@ -66,8 +67,14 @@ function get_look_angle(e)
   if e == player then return get_look_angle_player() end
 end
 
-function hurt_player(amount, recovery_time)
+function player_touchable()
   if player.until_recovery > 0 then return end
+  if player.dash_began then return end
+  return true
+end
+
+function hurt_player(amount, recovery_time)
+  if not player_touchable() then return end
   player.life = player.life - (amount or 0)
 
   player.until_recovery = (recovery_time or player.recovery_time) * player.buffs.recovery_time
@@ -85,7 +92,11 @@ function update_player()
   p.until_recovery = p.until_recovery - dt()
   
   local acceleration = 800 * dt()
-  
+                                
+  if btn("left") then                  
+    p.v.x = p.v.x - acceleration * dt()
+  end
+    
   if not SHOWING_MENU() then 
   -- if true then 
     if btn("up") then 
@@ -100,9 +111,11 @@ function update_player()
       p.v.y = p.v.y + acceleration * dt()
     end                                  
                                          
-    if btn("left") then                  
-      p.v.x = p.v.x - acceleration * dt()
-    end
+    if btnr("p") then                  
+      player.max_life = player.max_life + 100
+      player.life = player.life + 100
+    end                                  
+           
     
     if btnp("space") then
       if not p.dash_began then
@@ -119,7 +132,7 @@ function update_player()
   end
   
   -- wand_update()
-  
+  -- add_log(p.dash_began or "")
   if p.dash_began then 
   
     local angle = get_player_mov_angle()

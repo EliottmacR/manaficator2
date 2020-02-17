@@ -1,6 +1,6 @@
 
 function init_start_area()
-  
+  if area and area.quit then area.quit() end
   world = {}
   
   world.x = 0
@@ -55,8 +55,6 @@ function init_start_area()
     player.x = world.w/2 - player.w/2
     player.y = world.h/2 - player.h/2
   end
-  
-  add_log("here")
   
   sk = sk or {x = to_shop_zone.x + 2 + 32 + 16 , y = to_shop_zone.y + 40 - 25, ry = function() return sk.y + 4 + 16 end, draw = function() outlined(to_shop_zone.sprite + 3 , sk.x, sk.y, 1, 2) end}
   add_object_y_sort(sk, sk.draw)
@@ -122,7 +120,7 @@ function update_start_area()
   if hover_quest_board then mouse_msg = "(LMB) Quest Board" end
   
   if btnr("select") and hover_quest_board then
-    show_quest_board()
+    show_quest_board(true)
   end
   
   
@@ -131,6 +129,7 @@ end
 
 function draw_start_area()
 
+  cls(_p_n("red"))
   spr_sheet (start_area_bg, 0, 0)
   outlined(23*8 + 4, to_pit_zone.x, to_pit_zone.y , to_pit_zone.w/16, to_pit_zone.h/16)
  
@@ -152,7 +151,7 @@ function post_draw_start_area()
 end
 
 function quit_start_area()
-  add_log("here")
+
   remove_from_y_draw(pbl)
   remove_from_y_draw(pbr)
   remove_from_y_draw(ptl)
@@ -230,10 +229,10 @@ function draw_walls ()
 
 end
 
-function show_quest_board()
+function show_quest_board(from_qb)
   close_other_menus()
   SHOWING_QB = true
-  init_qb()
+  init_qb(from_qb)
   
 end
 

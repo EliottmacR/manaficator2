@@ -13,16 +13,16 @@ do -- find all the projectiles_types
       -- require("game/projectiles/"..file)
     -- end
   -- end
-  require("game/projectiles/kamehameha.lua")
-  require("game/projectiles/orb.lua")
-  require("game/projectiles/ranged_laser.lua")
+  require("game/projectiles/kamehameha")
+  require("game/projectiles/orb")
+  require("game/projectiles/ranged_laser")
 end
 
 n_proj_id = 1
 
 function new_projectile(from, proj)
   
-  proj.from = (p == player and "player" or "other") 
+  proj.from = (from == "player" or "other") 
   proj.id = n_proj_id
   projectiles[n_proj_id] = proj
   n_proj_id = n_proj_id + 1

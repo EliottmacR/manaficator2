@@ -18,6 +18,7 @@ function init_quests()
   -- have one that features redoable quests
   
   init_monstrology()
+  init_feat()
   
   quest_board.selected_chains = {1, 2, 3}
   
@@ -72,19 +73,32 @@ function init_monstrology()
                 })
                 
   add(quest_board.quest_chains, copy_table(monstrology) ) 
-  add(quest_board.quest_chains, copy_table(monstrology) ) 
   add(quest_board.quest_chains, copy_table(monstrology) )  
   
 end
 
 function init_feat()
   
-  -- feat = { quests = {}, done = {}}
   
-  -- add( feat.quests,  { 
-                  -- name = "Poor Child", 
-                  -- desc = "Die without killing any enemy", 
-                  -- check = function() return r_enemies_killed() >= 20 end , 
-                  
-  -- add(quests, monstrology)       
+  feats = { name = "Feats", quests = {}, current = 1}
+  
+  add( feats.quests,  { 
+                  name = "Newborn", 
+                  desc = "Complete wave 1", 
+                  check = function() return best_wave_beaten >= 1 end , 
+                  collected = false, 
+                }) 
+                
+  add(quest_board.quest_chains, copy_table(feats) ) 
 end
+
+
+
+
+
+
+
+
+
+
+

@@ -86,19 +86,19 @@ function init_hp_bar()
 end
 
 function update_hp_bar()
-
   if hp_bar.life < player.life then
-    hp_bar.life = min(player.life, hp_bar.life + dt())
+    hp_bar.life = min(player.life, hp_bar.life + dt()*40)
   elseif hp_bar.life > player.life then
-    hp_bar.life = max(player.life, hp_bar.life - dt())
+    hp_bar.life = max(player.life, hp_bar.life - dt()*40)
   end
   
   if hp_bar.max_life < player.max_life then
-    hp_bar.max_life = min(player.max_life, hp_bar.max_life + dt())
+    hp_bar.max_life = min(player.max_life, hp_bar.max_life + dt()*40)
   elseif hp_bar.max_life > player.max_life then
-    hp_bar.max_life = max(player.max_life, hp_bar.max_life - dt())
+    hp_bar.max_life = max(player.max_life, hp_bar.max_life - dt()*40)
   end
   
+  hp_bar.life = max(hp_bar.life, 0)
 end
 
 function draw_hp_bar()
@@ -108,18 +108,20 @@ function draw_hp_bar()
   
   local rat = pl / pml
   
-  local width = 16 + 16 + 16 * (pml / 5) - 4 - 4 - 3
+  local width = 16 + 16 + 16 * (pml / 100) - 4 - 4 - 3
   rctf(hp_bar.x + 5, hp_bar.y + 3, width, 32 - 4 - 4 - 1, _p_n("black"))
-  rctf(hp_bar.x + 5, hp_bar.y + 3, width * rat, 32 - 4 - 4 - 1, _p_n("ppink"))
-  
+  if hp_bar.life > 0 then
+    rctf(hp_bar.x + 5, hp_bar.y + 3, width * rat, 32 - 4 - 4 - 1, _p_n("ppink"))
+  end
   use_font("16")
-  local str = flr(pl / pml * 100)
+  
+  local str = flr(pl)
     
-  c_cool_print(str, hp_bar.x + 16 + 8 * (pml / 5), hp_bar.y + 16 - 2, _p_n("green"), _p_n("black"))
+  c_cool_print(str, hp_bar.x + 16 + 8 * (pml / 100), hp_bar.y + 16 - 2, _p_n("green"), _p_n("black"))
   
   aspr(hp_bar.s, hp_bar.x, hp_bar.y, 0, 1, 2, 0, 0, hp_bar.scale_x, hp_bar.scale_y)
-  aspr(hp_bar.s+1, hp_bar.x + 16, hp_bar.y, 0, 1, 2, 0, 0, pml / 5, hp_bar.scale_y)
-  aspr(hp_bar.s+2, hp_bar.x + 16 + 16 * pml / 5, hp_bar.y, 0, 1, 2, 0, 0, hp_bar.scale_x, hp_bar.scale_y)
+  aspr(hp_bar.s+1, hp_bar.x + 16, hp_bar.y, 0, 1, 2, 0, 0, pml / 100, hp_bar.scale_y)
+  aspr(hp_bar.s+2, hp_bar.x + 16 + 16 * pml / 100, hp_bar.y, 0, 1, 2, 0, 0, hp_bar.scale_x, hp_bar.scale_y)
   
 end
 

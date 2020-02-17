@@ -10,8 +10,8 @@ do -- find all the enemies
     -- end
   -- end
   
-  require("game/menus/quest_board.lua")
-  require("game/menus/shop.lua")
+  require("game/menus/quest_board")
+  require("game/menus/shop")
 end
 
 

@@ -3,6 +3,7 @@ e_template.acid_pool = {
   name = "Acid Pool",
   id = "acid_pool",
   
+  rarity = 0,
   w = 16,
   h = 16,
   

@@ -6,14 +6,13 @@ function add_cadavre(e, x, y)
   add(cadavres, {
   
     id = e.id,
-    s = get_a(e).s + 2,
+    s = get_t(e).s + 2,
     
     x = x,
     y = y,
     
     timer = 45,
-    a = rnd(1),
-  
+    a = rnd(1), 
   
   })
 

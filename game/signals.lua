@@ -17,6 +17,7 @@ signals = {}
 function init_signals()
 
   is_dead = {}
+  best_wave_beaten = 0
 
   for i, t in pairs(e_template) do
     is_dead[t.id] = 0

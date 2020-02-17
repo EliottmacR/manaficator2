@@ -17,9 +17,10 @@ do -- find all the enemies
       -- require("game/enemies/"..file)
     -- end
   -- end
-  require("game/enemies/acid_cloud.lua")
-  require("game/enemies/acid_pool.lua")
-  require("game/enemies/zombie.lua")
+  require("game/enemies/acid_cloud")
+  require("game/enemies/acid_pool")
+  require("game/enemies/zombie")
+  require("game/enemies/skelly")
   
 end
 
@@ -61,6 +62,35 @@ function kill_enemy(e)
   if get_a(e).y_sort then remove_from_y_draw(e) end
 end
 
+function remove_all_enemies()
+  for _, e in pairs(enemies) do 
+    enemies[e.eid] = nil
+    if get_a(e).y_sort then remove_from_y_draw(e) end
+  end
+end
+
+
+function get_rnd_enemy_type()
+  
+  all_types = {}
+  total = 0
+  
+  for i, t in pairs(e_template) do
+    add(all_types,{ rarity = t.rarity, type = i})
+    total = total + t.rarity
+  end
+  
+  local monster = rnd(total)
+  local ar = 0 -- accumulated rarity
+  
+  for i, t in pairs(all_types) do
+    if ar + t.rarity > monster then return t.type end
+    ar = ar + t.rarity
+  end
+  add_log("wow that didnt work at all")
+  
+  
+end
 
 ----------------------------------------
 

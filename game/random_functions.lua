@@ -184,13 +184,33 @@ end
 
 function dist_e2(entity1, entity2)
   
-  local x1 = entity1.x + (entity1.w and entity1.w/2)
-  local y1 = entity1.y + (entity1.h and entity1.h/2)
+  local x1 = entity1.x + (entity1.w and entity1.w/2 or 0)
+  local y1 = entity1.y + (entity1.h and entity1.h/2 or 0)
   
-  local x2 = entity2.x + (entity2.w and entity2.w/2)
-  local y2 = entity2.y + (entity2.h and entity2.h/2)
+  local x2 = entity2.x + (entity2.w and entity2.w/2 or 0)
+  local y2 = entity2.y + (entity2.h and entity2.h/2 or 0)
   
   return dist(x1-x2, y1-y2)
+end
+
+-- function lerp(a,b,t) return (1-t)*a + t*b end
+
+function reduce(b1, b2, v)
+  local bl = min(b1, b2)
+  local br = max(b1, b2)
+  return (v - bl) / (br - (bl))
+end 
+
+function intro_print(str)  
+  c_cool_print(str, GW/2 , GH - 16 + cos(t()) * 2.5,_p_n("agreen"), _p_n("black"))
+  -- s_print(str, GW/2 - str_width(str)/2, GH - 16 - str_height(str)/2 + cos(t()) * 2.5, _p_n("dpurple"), 1, _p_n("white"))
+end
+
+function s_print(str, x, y, col, step, back_col)
+
+  print(str, x + step, y + step, back_col or _p_n("black"))
+  print(str, x, y, col)
+
 end
 
 function nil_func() end

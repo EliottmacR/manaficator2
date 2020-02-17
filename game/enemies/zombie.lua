@@ -3,8 +3,10 @@ e_template.zombie = {
   name = "Zombie",
   id = "zombie",
   
+  rarity = 1,
   w = 16,
   h = 16,
+  s = 8*2,
   
   attributes = {
     hp = 10,
@@ -14,7 +16,6 @@ e_template.zombie = {
     collide = true,
     y_sort = true,
     cadavreable = true,
-    s = 8*2,
   },
   
   init = function()
@@ -98,7 +99,7 @@ e_template.zombie = {
   draw = function(e)
     local flash = (e.last_hit + get_a(e).recovery_time > t())
     local a = e.angle
-    local s = flr(t()%2) 
+    local s = flr(2*t()%2) 
     local fx = (a > -1/4 and a < 1/4)
     
     outlined( 8*2 + s, e.x, e.y, 1, 1, fx, flash and _p_n("white"))

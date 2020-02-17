@@ -19,14 +19,22 @@ projectile_t.orb = {
         to_destroy(proj)
       end
       
-      for i, e in pairs(enemies) do
-        if dist_e1(e, proj) < proj.r + get_t(e).w/2 then -- collision
-          enemies[i] = nil
+      if proj.from == "player" then
+        for i, e in pairs(enemies) do
+          if dist_e1(e, proj) < proj.r + get_t(e).w/2 then -- collision
+            hit_ennemy(e, 100)
+            to_destroy(proj)
+            break
+          end 
+        end
+      else
+      
+        local e = player
+        if dist_e2(e, proj) < proj.r + e.w/2 and player_touchable() then -- collision
+          hurt_player(10)
           to_destroy(proj)
-          break
         end 
       end
-      
     else
       if t() - proj.to_destroy > dt() * 2 then 
         destroy(proj) 
