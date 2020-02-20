@@ -81,6 +81,8 @@ function init_start_area()
     
   add_object_y_sort(tono, tono.draw)
   
+  name_world = "start_area"
+  
 end
   
 function init_start_area_bg()

@@ -24,6 +24,11 @@ function init_pit()
     draw_walls()
   
   target()
+  
+  name_world = "pit"
+  
+  send_signal("new_game")
+  
 end
 
 function create_wave(enemies, spawn_delay)

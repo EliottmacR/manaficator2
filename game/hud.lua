@@ -46,6 +46,12 @@ function draw_hud()
     mouse_msg = nil
   end
   
+  if name_world == "start_area" then
+    cool_print("Coins : " .. player.coins, 10, GH - str_height(player.coins) - 10, _p_n("black"), _p_n("yellow"))
+  end
+  
+  -- add_log(name_world) 
+  
   draw_hp_bar() 
   
   draw_menus()

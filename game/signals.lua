@@ -53,3 +53,23 @@ signals.is_dead =
   end
 
 --------------
+
+number_of_games = 0
+
+signals.new_game = 
+  
+  function()
+    number_of_games = number_of_games + 1
+  end
+
+--------------
+
+dashed_through_projectiles = 0
+
+signals.dashed_through_projectile = 
+  
+  function()
+    dashed_through_projectiles = dashed_through_projectiles + 1
+  end
+
+--------------

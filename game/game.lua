@@ -39,6 +39,11 @@ function init_game()
   
   init_intro()
   
+  new_enemy("acid_cloud")
+  for i = 1, 20 do send_signal( "is_dead", { e = pick(enemies) } ) end
+  for i, e in pairs(enemies) do kill_enemy(e) end
+  for i = 1, 20 do send_signal( "dashed_through_projectile") end 
+  
   
 end
 

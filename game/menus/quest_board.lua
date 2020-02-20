@@ -35,7 +35,7 @@ end
 function update_qb()
   
   local s = qb_w
-  add_log("opened_from_qb : " .. (opened_from_qb and "true" or "false"))
+  -- add_log("opened_from_qb : " .. (opened_from_qb and "true" or "false"))
   
   if (btnr("select") and point_in_rect(btnv("mouse_x"), btnv("mouse_y"), s.x + s.w + 8, s.y - 20, 16, 16)) or btnr("back") then
     close_qb()
@@ -60,47 +60,96 @@ function draw_qb()
   
   local y = 0
   
+  -- add_log(btnv("mouse_x") - s.x)
+  
+  -- for i, v in pairs(quest_board.selected_chains) do
+    -- add_log(i .. ":" .. v)
+  -- end
+  
+  -- local temp_qc = quest_board.quest_chains[quest_board.selected_chains[3]]
+  -- local temp_q = temp_qc
+  
+  -- add_log(temp_qc.name or "oops")
+  -- add_log(temp_qc.current or "oops")
+  -- add_log(temp_qc.quests[1].name or "oops")
+  
+  
+  
+  
   for i = 1, 3 do
-    local qc = quest_board.quest_chains[i]
+    
+    -- local qc = quest_board.quest_chains[i]
+    local qc = quest_board.quest_chains[quest_board.selected_chains[i]]
     
     rctf(0, y, s.bw, s.bh, _p_n("pink"))
     rctf(3, y + 3, s.bw - 6, s.bh - 6, _p_n("black"))
     
     local q = qc.quests[qc.current]
-    local name = q and q.name or ""
-    local desc = q and q.desc or ""
     
-    use_font("16")
-    c_cool_print(name, s.bw/2, y + 10)
-    
-    use_font("24")
-    c_cool_print(desc, s.bw/2, y + s.bh/2 - str_height(desc)/2)
-    
-    -- progress bar : 
-    if not opened_from_qb or not q.check() then
-      if q.progress_bar then
-        local ratio = q.progress_bar()
-        local text = q.progress_text()
-        rctf(3, y + s.bh - s.bh/4 - 3, s.bw - 6, s.bh/4, _p_n("yellow"))
-        rctf(6, y + s.bh - s.bh/4, s.bw - 12, s.bh/4 - 6, _p_n("red"))
-        if ratio > 0 then
-          rctf(6, y + s.bh - s.bh/4, (s.bw - 12) * ratio, s.bh/4 - 6, _p_n("green"))
+      local name = q and q.name or ""
+      local desc = q and q.desc or ""
+      add_log(qc.current)
+      add_log(name)
+      add_log(desc)
+    if q then 
+      
+      use_font("16")
+      c_cool_print(name, s.bw/2, y + 10)
+      
+      
+      use_font("24")
+      use_font(str_width(desc) > s.bw and "16" or "24")
+        
+      c_cool_print(desc, s.bw/2, y + s.bh/2 - str_height(desc)/2)
+      
+      if q.check() and not q.collected then 
+        if btnp("select") then
+          if mouse_in_rect(3, y + 3, 3 + s.bw - 6, y + 3 + s.bh - 6, btnv("mouse_x") - s.x, btnv("mouse_y") - s.y) then        
+            redeem_prize(i)
+          end
         end
-        if text then
+      end
+      
+      -- progress bar : 
+      if not opened_from_qb or not q.check() then
+        if q.progress_bar then
+          local ratio = q.progress_bar()
+          local text = q.progress_text()
+          rctf(3, y + s.bh - s.bh/4 - 3, s.bw - 6, s.bh/4, _p_n("yellow"))
+          rctf(6, y + s.bh - s.bh/4, s.bw - 12, s.bh/4 - 6, _p_n("red"))
+          if ratio > 0 then
+            rctf(6, y + s.bh - s.bh/4, (s.bw - 12) * ratio, s.bh/4 - 6, _p_n("green"))
+          end
+          if text then
+            use_font("16")
+            c_cool_print(text, s.bw/2, y + s.bh - s.bh/4 + 5)
+          end
+        else
           use_font("16")
-          c_cool_print(text, s.bw/2, y + s.bh - s.bh/4 + 5)
+          local str = (q.check() and "C" or "Not c") .. "ompleted"
+          c_cool_print(str, s.bw/2, y + s.bh - s.bh/4 + 5)
         end
       else
-        use_font("16")
-        local str = (q.check() and "C" or "Not c") .. "ompleted"
-        c_cool_print(str, s.bw/2, y + s.bh - s.bh/4 + 5)
+        if q.check() then
+          
+          use_font("16")
+          
+          if q.collected then
+            local str = "Reward Collected"
+            c_cool_print(str, s.bw/2, y + s.bh - s.bh/4 + 5, _p_n("black"), _p_n("yellow") )
+          else
+            local str = "Click to collect"
+            c_cool_print(str, s.bw/2, y + s.bh - s.bh/4 + 5, _p_n("black"), _p_n(flr(t() * 3) % 2 == 0 and "yellow" or "pink" ) )
+          end
+          
+        else
+          use_font("16")
+          local str = "Not completed"
+          c_cool_print(str, s.bw/2, y + s.bh - s.bh/4 + 5)
+        end
       end
-    else
-        use_font("16")
-        local str = (q.check() and "C" or "Not c") .. "ompleted"
-        c_cool_print(str, s.bw/2, y + s.bh - s.bh/4 + 5)
     end
-    
+      
     
     
     

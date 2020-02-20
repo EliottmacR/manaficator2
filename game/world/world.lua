@@ -1,6 +1,8 @@
 require("game/world/start_area")
 require("game/world/pit")
 
+name_world = ""
+
 function init_world()
   init_start_area()
   -- init_pit()

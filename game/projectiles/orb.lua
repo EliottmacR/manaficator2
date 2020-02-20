@@ -30,9 +30,13 @@ projectile_t.orb = {
       else
       
         local e = player
-        if dist_e2(e, proj) < proj.r + e.w/2 and player_touchable() then -- collision
-          hurt_player(10)
-          to_destroy(proj)
+        if dist_e2(e, proj) < proj.r + e.w/2 then
+          if player_touchable() then -- collision
+            hurt_player(10)
+            to_destroy(proj)
+          elseif player.dash_began then
+            send_signal("dashed_through_projectile")
+          end 
         end 
       end
     else

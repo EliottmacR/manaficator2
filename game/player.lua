@@ -112,8 +112,9 @@ function update_player()
     end                                  
                                          
     if btnr("p") then                  
-      player.max_life = player.max_life + 100
-      player.life = player.life + 100
+      new_enemy("acid_cloud")
+      for i = 1, 20 do send_signal( "is_dead", { e = pick(enemies) } ) end
+      for i = 1, 20 do send_signal( "dashed_through_projectile") end 
     end                                  
            
     
