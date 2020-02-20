@@ -60,25 +60,8 @@ function draw_qb()
   
   local y = 0
   
-  -- add_log(btnv("mouse_x") - s.x)
-  
-  -- for i, v in pairs(quest_board.selected_chains) do
-    -- add_log(i .. ":" .. v)
-  -- end
-  
-  -- local temp_qc = quest_board.quest_chains[quest_board.selected_chains[3]]
-  -- local temp_q = temp_qc
-  
-  -- add_log(temp_qc.name or "oops")
-  -- add_log(temp_qc.current or "oops")
-  -- add_log(temp_qc.quests[1].name or "oops")
-  
-  
-  
-  
   for i = 1, 3 do
     
-    -- local qc = quest_board.quest_chains[i]
     local qc = quest_board.quest_chains[quest_board.selected_chains[i]]
     
     rctf(0, y, s.bw, s.bh, _p_n("pink"))
@@ -86,12 +69,10 @@ function draw_qb()
     
     local q = qc.quests[qc.current]
     
-      local name = q and q.name or ""
-      local desc = q and q.desc or ""
-      add_log(qc.current)
-      add_log(name)
-      add_log(desc)
-    if q then 
+    if q then     
+    
+    local name = q and q.name or ""
+    local desc = q and q.desc or ""
       
       use_font("16")
       c_cool_print(name, s.bw/2, y + 10)
@@ -149,20 +130,9 @@ function draw_qb()
         end
       end
     end
-      
-    
-    
-    
-    
-    
-    
-    
+
     y = y + s.bh
   end
-  
-  
-  
-  
   
   target()
   spr_sheet(qb_surf, s.x, s.y)

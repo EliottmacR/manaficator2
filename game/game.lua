@@ -67,6 +67,8 @@ function update_game()
   
   update_hud()
   
+  if write_ and count(write_) > 0 then for i, str in pairs(write_) do add_log(i .. ":" .. str) end end
+  
 end
 
 function get_player_mov_angle()

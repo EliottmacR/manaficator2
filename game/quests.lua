@@ -19,7 +19,6 @@ function init_quests()
   
   init_monstrology()
   init_feat()
-  init_feat()
   init_challenger()
   init_misc()
   
@@ -186,10 +185,8 @@ function redeem_prize(slot_index)
       
       local pickable_quests = {}
       -- while not found or i > count(quest_board.quest_chains)
-      
       for i, qc in pairs (quest_board.quest_chains) do
-        
-        if i ~= -1 and qc.quests[qc.current] and qc.current ~= -1 then
+        if i ~= -1 and qc.quests[qc.current] and qc.current ~= -1 and not is_in(i,quest_board.selected_chains)  then
           add(pickable_quests, i)
         end
       end
