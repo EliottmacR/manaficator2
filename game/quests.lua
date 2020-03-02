@@ -26,8 +26,8 @@ function init_quests()
   
   -- init_feat()
                 
-                
   -- available_quests = {1, 2, 4}
+  
   completed_quests = {}
 
 end
@@ -195,8 +195,8 @@ function redeem_prize(slot_index)
         quest_board.selected_chains[slot_index] = pick(pickable_quests)
       end
       
-      
     else
+    
       -- take another quest that is not collected
       -- if possible, make "current" be a quest that is not collected in misc
       for i, q in pairs(qc.quests) do

@@ -17,7 +17,20 @@ function init_shop_menu()
   
   shop_w.rw = 16
   shop_w.rh = 16*3
-
+  
+  buy_b = {}
+  
+  buy_b.text = "Buy"
+  use_font("32")
+  buy_b.w    = str_width(buy_b.text) * 1.8
+  buy_b.h    = str_height(buy_b.text) * 2.5
+  
+  buy_b.x    = GW/2
+  buy_b.y    = shop_w.y + shop_w.h + 16
+  buy_b.c    = {_p_n("red"), _p_n("black")}
+  
+  buy_b.rx    = GW/2 - str_width(buy_b.text)/2
+  buy_b.ry    = shop_w.y + shop_w.h + 16 - str_height(buy_b.text)/3
 end
 
 function init_shop()
@@ -100,7 +113,7 @@ function update_shop()
     end
     
   --  
-  
+  buy_b.hovered = point_in_rect(btnv("mouse_x"), btnv("mouse_y"), buy_b.rx, buy_b.ry, buy_b.w, buy_b.h)
 end
 
 
@@ -187,8 +200,25 @@ function draw_shop()
     
     local str_h = str_height(content.name)
     use_font("16")
-    c_cool_print(content.desc, s.w/2, 15 + str_h * 1.5, _p_n("black"), _p_n("white")) 
-  
+    
+    -- local to_print = {content.desc}
+    local to_print = cut_str(content.desc, s.w*2/3)
+    
+    local r = ""
+    for i = 1, count(to_print) do
+      local str = to_print[i]
+      c_cool_print(r .. str, s.w/2, 15 + str_h * 1.5, _p_n("black"), _p_n("white")) 
+      r = r .. "\n"
+    end
+    
+    -- Price
+    
+      local price_text = current_item_displayed().price .. " C"
+      use_font("16")
+      local pt_h = str_height(price_text)
+      
+      c_cool_print(price_text, s.w/2, s.h - s.ch - pt_h + cos(t()/2) * 2.5)
+    
   --
   
   -- ARROWS
@@ -224,5 +254,25 @@ function draw_shop()
   --
   
   target()
+  
+  use_font("32")
+  
+  local y = buy_b.y
+  
+  if buy_b.hovered then y = y + cos(t()/2) * 5 end
+  
+  c_cool_print(buy_b.text, buy_b.x, y, buy_b.c[1], buy_b.c[2]) 
+  
+  -- local w = current_item_displayed()
+  
   spr_sheet(shop_surf, s.x, s.y)
 end
+
+function current_item_displayed()
+  if not shop_w or not items_on_sale then return end
+  -- return get_wand_t("meteor_wand")
+  local t = (shop_w.choosen == 1 and wands or shop_w.choosen == 2 and items)
+  if not t then return end 
+  return t[items_on_sale[shop_w.choosen][shop_w.index]]
+end
+

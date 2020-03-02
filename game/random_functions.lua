@@ -376,6 +376,35 @@ end
 -- Y sorting -------------------------------------------------
 --
 
+function cut_str(str, width_max)
+  local words = {}
+  for w in str:gmatch("%S+") do add(words, w) end
+  
+  local lines = {}
+  
+  local size = 0
+  local line = ""
+  for i = 1, count(words) do 
+    local w = words[i]    
+    size = size + str_width(w)
+    
+    if size <= width_max then
+      line = line .. " " .. w
+    else
+      add(lines, line)
+      line = w
+      size = 0
+    end
+    
+  end
+  
+  add(lines, line)
+  
+  -- for i, l in pairs(lines) do add_log(l) end
+  
+  return lines
+
+end
 
 
 

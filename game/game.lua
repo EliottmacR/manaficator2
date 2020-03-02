@@ -152,7 +152,7 @@ end
 
 function init_fonts()
   
-  load_font("sugarcoat/TeapotPro.ttf", 44, "44", false)
+  load_font("sugarcoat/TeapotPro.ttf", 48, "48", false)
   load_font("sugarcoat/TeapotPro.ttf", 32, "32", false)
   load_font("sugarcoat/TeapotPro.ttf", 24, "24", true)
   load_font("sugarcoat/TeapotPro.ttf", 16, "16", true)

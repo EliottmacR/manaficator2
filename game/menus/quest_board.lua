@@ -77,9 +77,10 @@ function draw_qb()
       use_font("16")
       c_cool_print(name, s.bw/2, y + 10)
       
-      
       use_font("24")
-      use_font(str_width(desc) > s.bw and "16" or "24")
+      if (str_width(desc) > s.bw) then
+        use_font("16")
+      end
         
       c_cool_print(desc, s.bw/2, y + s.bh/2 - str_height(desc)/2)
       
@@ -92,6 +93,7 @@ function draw_qb()
       end
       
       -- progress bar : 
+      use_font("16")
       if not opened_from_qb or not q.check() then
         if q.progress_bar then
           local ratio = q.progress_bar()
@@ -102,19 +104,14 @@ function draw_qb()
             rctf(6, y + s.bh - s.bh/4, (s.bw - 12) * ratio, s.bh/4 - 6, _p_n("green"))
           end
           if text then
-            use_font("16")
             c_cool_print(text, s.bw/2, y + s.bh - s.bh/4 + 5)
           end
         else
-          use_font("16")
           local str = (q.check() and "C" or "Not c") .. "ompleted"
           c_cool_print(str, s.bw/2, y + s.bh - s.bh/4 + 5)
         end
       else
         if q.check() then
-          
-          use_font("16")
-          
           if q.collected then
             local str = "Reward Collected"
             c_cool_print(str, s.bw/2, y + s.bh - s.bh/4 + 5, _p_n("black"), _p_n("yellow") )
@@ -122,9 +119,7 @@ function draw_qb()
             local str = "Click to collect"
             c_cool_print(str, s.bw/2, y + s.bh - s.bh/4 + 5, _p_n("black"), _p_n(flr(t() * 3) % 2 == 0 and "yellow" or "pink" ) )
           end
-          
         else
-          use_font("16")
           local str = "Not completed"
           c_cool_print(str, s.bw/2, y + s.bh - s.bh/4 + 5)
         end

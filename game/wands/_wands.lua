@@ -42,3 +42,7 @@ end
 function get_firing_speed(player)
   return (wands[player.wand_id] and wands[player.wand_id].firing_speed or 1) / (player.buffs.firing_speed or 1)
 end
+
+function get_wand_t(id)
+  return wands[id]
+end
