@@ -18,19 +18,25 @@ function init_shop_menu()
   shop_w.rw = 16
   shop_w.rh = 16*3
   
+  
+  
   buy_b = {}
   
-  buy_b.text = "Buy"
+  buy_b.buy_text    = "Buy"
+  buy_b.bought_text = "Bought"
+  
   use_font("32")
-  buy_b.w    = str_width(buy_b.text) * 1.8
-  buy_b.h    = str_height(buy_b.text) * 2.5
+  
+  buy_b.w    = str_width(buy_b.buy_text) * 1.8
+  buy_b.h    = str_height(buy_b.buy_text) * 2.5
   
   buy_b.x    = GW/2
   buy_b.y    = shop_w.y + shop_w.h + 16
-  buy_b.c    = {_p_n("red"), _p_n("black")}
+  buy_b.c    = {_p_n("yellow"), _p_n("black"),_p_n("gray"), _p_n("black")}
   
-  buy_b.rx    = GW/2 - str_width(buy_b.text)/2
-  buy_b.ry    = shop_w.y + shop_w.h + 16 - str_height(buy_b.text)/3
+  buy_b.rx    = GW/2 - str_width(buy_b.buy_text)/2
+  buy_b.ry    = shop_w.y + shop_w.h + 16 - str_height(buy_b.buy_text)/3
+  
 end
 
 function init_shop()
@@ -101,19 +107,31 @@ function update_shop()
     if s.choosen == 1 then
       hover_l_c = point_in_rect(btnv("mouse_x") - s.x, btnv("mouse_y") - s.y, 0, s.h - s.ch, s.w/2, s.ch)
     else
-      hover_l_c = point_in_rect(btnv("mouse_x") - s.x, btnv("mouse_y") - s.y, 0, s.h - s.ch * 3/4, s.w/2, s.ch)
+      hover_l_c = point_in_rect(btnv("mouse_x") - s.x, btnv("mouse_y") - s.y, 0, s.h - s.ch * 3/4, s.w/2, s.ch * 3/4)
       if (btnp("select") and hover_l_c) then s.choosen, s.index = 1, 1 end
     end
+    
       
     if s.choosen == 1 then
-      hover_r_c = point_in_rect(btnv("mouse_x") - s.x, btnv("mouse_y") - s.y, s.w/2, s.h - s.ch * 3/4, s.w/2, s.ch)
+      hover_r_c = point_in_rect(btnv("mouse_x") - s.x, btnv("mouse_y") - s.y, s.w/2, s.h - s.ch * 3/4, s.w/2, s.ch * 3/4)
       if (btnp("select") and hover_r_c) then s.choosen, s.index = 2, 1 end
     else
       hover_r_c = point_in_rect(btnv("mouse_x") - s.x, btnv("mouse_y") - s.y, s.w/2, s.h - s.ch, s.w/2, s.ch)
     end
     
   --  
-  buy_b.hovered = point_in_rect(btnv("mouse_x"), btnv("mouse_y"), buy_b.rx, buy_b.ry, buy_b.w, buy_b.h)
+  
+  buy_b.can_buy = player.coins > current_item_displayed().price
+  
+  if buy_b.can_buy and not current_item_displayed().bought then
+    
+    buy_b.hovered = point_in_rect(btnv("mouse_x"), btnv("mouse_y"), buy_b.rx, buy_b.ry, buy_b.w, buy_b.h)
+    if (btnp("select") and buy_b.hovered) then 
+      current_item_displayed().bought = true
+      player.coins = player.coins - current_item_displayed().price
+    end
+  end
+  
 end
 
 
@@ -167,18 +185,23 @@ function draw_shop()
   -- CATEGORIES
   
     -- left
+      use_font("16")
       if s.choosen == 1 then
         rctf(0, s.h - s.ch, s.w/2, s.ch,       hover_l_c and _p_n("yellow") or _p_n("red"))
+        c_cool_print("Wands", s.w/4, s.h - 32, _p_n("yellow"), _p_n("black"))
       else
         rctf(0, s.h - s.ch * 3/4, s.w/2, s.ch, hover_l_c and _p_n("yellow") or _p_n("white"))
+        c_cool_print("Wands", s.w/4, s.h - 32 + s.ch * 1/8, _p_n("yellow"), _p_n("black"))
       end
     --
     
     -- right
       if s.choosen == 1 then
         rctf(s.w/2, s.h - s.ch * 3/4, s.w/2, s.ch, hover_r_c and _p_n("yellow") or _p_n("white"))
+        c_cool_print("Accessories", s.w*3/4, s.h - 32 + s.ch * 1/8, _p_n("yellow"), _p_n("black"))
       else
         rctf(s.w/2, s.h - s.ch, s.w/2, s.ch,       hover_r_c and _p_n("yellow") or _p_n("red"))
+        c_cool_print("Accessories", s.w*3/4, s.h - 32, _p_n("yellow"), _p_n("black"))
       end
     --
   
@@ -212,13 +235,13 @@ function draw_shop()
     end
     
     -- Price
-    
+    if not current_item_displayed().bought then
       local price_text = current_item_displayed().price .. " C"
       use_font("16")
       local pt_h = str_height(price_text)
       
       c_cool_print(price_text, s.w/2, s.h - s.ch - pt_h + cos(t()/2) * 2.5)
-    
+    end
   --
   
   -- ARROWS
@@ -259,11 +282,12 @@ function draw_shop()
   
   local y = buy_b.y
   
-  if buy_b.hovered then y = y + cos(t()/2) * 5 end
+  if buy_b.hovered and not current_item_displayed().bought then y = y + cos(t()/2) * 5 end
   
-  c_cool_print(buy_b.text, buy_b.x, y, buy_b.c[1], buy_b.c[2]) 
+  local text = current_item_displayed().bought and buy_b.bought_text or buy_b.buy_text
   
-  -- local w = current_item_displayed()
+  -- c_cool_print(text, buy_b.x, y, buy_b.c[1], buy_b.c[2] ) 
+  c_cool_print(text, buy_b.x, y, buy_b.can_buy and buy_b.c[1] or buy_b.c[3], buy_b.can_buy and buy_b.c[2] or buy_b.c[4]) 
   
   spr_sheet(shop_surf, s.x, s.y)
 end

@@ -10,6 +10,36 @@ require("game/items")
 
 background_clr = 0
 
+shader = [[
+  extern vec2 distortionFactor;
+  extern vec2 scaleFactor;
+  extern number feather;
+  vec4 effect(vec4 color, Image tex, vec2 uv, vec2 px) {
+  
+    // to barrel coordinates
+    uv = uv * 2.0 - vec2(1.0);
+    
+    // distort
+    uv *= scaleFactor;
+    uv += (uv.yx*uv.yx) * uv * (distortionFactor - 1.0);
+    number mask = (1.0 - smoothstep(1.0-feather,1.0,abs(uv.x)))
+                * (1.0 - smoothstep(1.0-feather,1.0,abs(uv.y)));
+                
+    // to cartesian coordinates
+    uv = (uv + vec2(1.0)) / 2.0;
+    return color * Texel_color(tex, uv) * mask;
+  }
+]]
+
+shader_defaults = {
+    distortionFactor = {1.06, 1.065},
+    feather = 0.02,
+    scaleFactor = {1, 1},
+}
+-- function init_shader()
+
+-- end
+
 function init_game()
   
   log_str = {}
@@ -44,12 +74,19 @@ function init_game()
   for i, e in pairs(enemies) do kill_enemy(e) end
   for i = 1, 20 do send_signal( "dashed_through_projectile") end 
   
+  -- screen_shader(shader)
+  screen_shader_input(shader_defaults)
   
 end
 
 function update_game()
   
   timer_intro = timer_intro - dt()
+  screen_shader_input({
+    distortionFactor = {1.06, 1.065},
+    feather = 0.04,
+    scaleFactor = {1, 1},
+})
   
   if state == "intro" then
     update_intro()
@@ -106,7 +143,7 @@ function draw_game()
     draw_hud()
   end
   
-  
+  draw_mouse()
   use_font("16")
   print_log()
   
@@ -115,6 +152,10 @@ end
 function draw_shadows()
   draw_shadow_player()
   draw_shadow_enemies()
+end
+
+function draw_mouse()
+  outlined( 4, btnv("mouse_x") - 8, btnv("mouse_y") - 8)
 end
 
 function init_controls()

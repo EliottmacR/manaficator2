@@ -116,7 +116,7 @@ function draw_qb()
             local str = "Reward Collected"
             c_cool_print(str, s.bw/2, y + s.bh - s.bh/4 + 5, _p_n("black"), _p_n("yellow") )
           else
-            local str = "Click to collect"
+            local str = "Click to collect reward"
             c_cool_print(str, s.bw/2, y + s.bh - s.bh/4 + 5, _p_n("black"), _p_n(flr(t() * 3) % 2 == 0 and "yellow" or "pink" ) )
           end
         else

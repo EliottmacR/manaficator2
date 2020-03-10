@@ -24,7 +24,7 @@ function love.load()
   set_frame_waiting(30)
   
   love.math.setRandomSeed(os.time())
-  love.mouse.setVisible(true)
+  -- love.mouse.setVisible(true)
   
   init_game()
 end

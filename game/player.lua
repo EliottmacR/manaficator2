@@ -93,12 +93,14 @@ function update_player()
   
   local acceleration = 800 * dt()
                                 
-  if btn("left") then                  
-    p.v.x = p.v.x - acceleration * dt()
-  end
     
   if not SHOWING_MENU() then 
   -- if true then 
+  
+    if btn("left") then                  
+      p.v.x = p.v.x - acceleration * dt()
+    end
+    
     if btn("up") then 
       p.v.y = p.v.y - acceleration * dt()
     end                                  
@@ -112,9 +114,9 @@ function update_player()
     end                                  
                                          
     if btnr("p") then                  
-      new_enemy("acid_cloud")
-      for i = 1, 20 do send_signal( "is_dead", { e = pick(enemies) } ) end
-      for i = 1, 20 do send_signal( "dashed_through_projectile") end 
+      -- new_enemy("acid_cloud")
+      -- for i = 1, 20 do send_signal( "is_dead", { e = pick(enemies) } ) end
+      -- for i = 1, 20 do send_signal( "dashed_through_projectile") end 
     end                                  
            
     
